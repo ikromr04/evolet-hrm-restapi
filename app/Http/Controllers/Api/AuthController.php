@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Requests\V1\LoginRequest;
 use App\Http\Resources\V1\UserResource;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 
@@ -13,15 +14,9 @@ class AuthController extends ApiController
     /**
      * Check if the user is authenticated
      */
-    public function check(): UserResource
+    public function me(Request $request): UserResource
     {
-        $user = Auth::user()->makeHidden([
-            'email_verified_at',
-            'created_at',
-            'updated_at'
-        ]);
-
-        return new UserResource($user);
+        return new UserResource($request->user());
     }
 
     /**
@@ -37,7 +32,7 @@ class AuthController extends ApiController
             ]]);
         }
 
-        $token = Auth::user()->createToken('api:default');
+        $token = $request->user()->createToken('api');
 
         return $this->success(
             data: [
@@ -45,7 +40,6 @@ class AuthController extends ApiController
                 'id' => (string) $token->accessToken->id,
                 'attributes' => [
                     'token' => $token->plainTextToken,
-                    'userId' => (string) $token->accessToken->tokenable_id
                 ]
             ],
             links: [
@@ -57,9 +51,19 @@ class AuthController extends ApiController
     /**
      * Log out the authenticated user.
      */
-    public function logout(): Response
+    public function logout(Request $request): Response
     {
-        Auth::user()->currentAccessToken()->delete();
+        $request->user()->currentAccessToken()->delete();
+
+        return response()->noContent();
+    }
+
+    /**
+     * Log out the user from all devices (revoke all tokens).
+     */
+    public function logoutAll(Request $request): Response
+    {
+        $request->user()->tokens()->delete();
 
         return response()->noContent();
     }
