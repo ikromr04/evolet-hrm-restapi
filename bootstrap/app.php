@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Middleware\ValidateJsonApiAccept;
+use App\Http\Middleware\ValidateJsonApiMediaType;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -11,17 +13,23 @@ use Illuminate\Validation\ValidationException;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
-        api: __DIR__ . '/../routes/api.php',
         commands: __DIR__ . '/../routes/console.php',
         health: '/up',
         then: function (Application $app): void {
-            Route::middleware('api')
+            Route::middleware(['api', 'media_type', 'accept'])
+                ->prefix('api')
+                ->group(base_path('routes/api.php'));
+
+            Route::middleware(['api', 'media_type', 'accept'])
                 ->prefix('api/v1')
                 ->group(base_path('routes/api_v1.php'));
         }
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+        $middleware->alias([
+            'media_type' => ValidateJsonApiMediaType::class,
+            'accept' => ValidateJsonApiAccept::class
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->render(function (ValidationException $exception, Request $request) {
