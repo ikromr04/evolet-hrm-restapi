@@ -17,10 +17,6 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
         then: function (Application $app): void {
             Route::middleware(['api', 'media_type', 'accept'])
-                ->prefix('api')
-                ->group(base_path('routes/api.php'));
-
-            Route::middleware(['api', 'media_type', 'accept'])
                 ->prefix('api/v1')
                 ->group(base_path('routes/api_v1.php'));
         }

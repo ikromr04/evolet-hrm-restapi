@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Api\V1;
 
+use App\Http\Controllers\Api\ApiController;
 use App\Http\Requests\V1\LoginRequest;
 use App\Http\Resources\V1\UserResource;
 use Illuminate\Http\JsonResponse;
