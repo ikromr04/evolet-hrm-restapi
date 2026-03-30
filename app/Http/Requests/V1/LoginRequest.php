@@ -35,4 +35,13 @@ class LoginRequest extends FormRequest
             'password' => $this->input('data.attributes.password')
         ];
     }
+
+    public function attributes(): array
+    {
+        return [
+            'data.type' => 'Тип ресурса',
+            'data.attributes.email' => 'Email',
+            'data.attributes.password' => 'Пароль'
+        ];
+    }
 }

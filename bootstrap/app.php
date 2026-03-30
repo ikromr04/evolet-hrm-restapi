@@ -33,12 +33,13 @@ return Application::configure(basePath: dirname(__DIR__))
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->render(function (ValidationException $exception, Request $request) {
-            foreach ($exception->errors() as $messages) {
+            foreach ($exception->errors() as $field => $messages) {
                 foreach ($messages as $message) {
                     $errors[] = [
                         'status' => 422,
                         'title' => __('api.unprocessable_content.title'),
-                        'detail' => $message
+                        'detail' => $message,
+                        'source' => ['pointer' => '/' . str_replace('.', '/', $field)]
                     ];
                 }
             }
