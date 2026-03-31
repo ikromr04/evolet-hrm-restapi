@@ -14,13 +14,25 @@ class RoleUserSeeder extends Seeder
     public function run(): void
     {
         $adminRole = Role::where('name', 'admin')->first();
-        $managerRole = Role::where('name', 'manager')->first();
         $employeeRole = Role::where('name', 'employee')->first();
 
-        User::where('email', 'manager@gmail.com')->first()->roles()->sync([$managerRole->id, $employeeRole->id]);
-        User::where('email', 'admin@gmail.com')->first()->roles()->sync([$adminRole->id, $employeeRole->id]);
+        User::whereIn('email', [
+            'hr.tjk@evolet.co.uk',
+            'loliholmatova@gmail.com',
+            'akbarjon.s@evolet.co.uk',
+            'mirzoeva.a@evolet.co.uk'
+        ])
+            ->get()
+            ->each(function ($user) use ($employeeRole, $adminRole) {
+                $user->roles()->sync([$adminRole->id, $employeeRole->id]);
+            });
 
-        User::whereNotIn('email', ['manager@gmail.com', 'admin@gmail.com'])
+        User::whereNotIn('email', [
+            'hr.tjk@evolet.co.uk',
+            'loliholmatova@gmail.com',
+            'akbarjon.s@evolet.co.uk',
+            'mirzoeva.a@evolet.co.uk'
+        ])
             ->get()
             ->each(function ($user) use ($employeeRole) {
                 $user->roles()->attach($employeeRole->id);

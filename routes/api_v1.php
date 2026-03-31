@@ -11,8 +11,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/logout', [AuthController::class, 'logout'])->name('logout');
     Route::delete('/tokens', [AuthController::class, 'logoutAll'])->name('logoutAll');
 
-    Route::get('/user', function (Request $request) {
+    Route::get('/employees', function (Request $request) {
         return $request->user();
     });
 });
-
