@@ -66,4 +66,22 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Role::class);
     }
+
+    public function getAvatarAttribute(): string
+    {
+        if (! empty($this->attributes['avatar'])) {
+            return route('images.show', ['path' => $this->attributes['avatar']]);
+        }
+
+        return asset('images/default-avatar.png');
+    }
+
+    public function getAvatarThumbAttribute(): string
+    {
+        if (! empty($this->attributes['avatar_thumb'])) {
+            return route('images.show', ['path' => $this->attributes['avatar_thumb']]);
+        }
+
+        return asset('images/default-avatar.png');
+    }
 }
