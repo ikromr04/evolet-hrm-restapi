@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Api\ApiController;
 use App\Http\Requests\V1\LoginRequest;
-use App\Http\Resources\V1\EmployeeResource;
+use App\Http\Resources\V1\UserResource;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -15,9 +15,9 @@ class AuthController extends ApiController
     /**
      * Check if the user is authenticated
      */
-    public function me(Request $request): EmployeeResource
+    public function me(Request $request): UserResource
     {
-        return new EmployeeResource($request->user());
+        return new UserResource($request->user());
     }
 
     /**
