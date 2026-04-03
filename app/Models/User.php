@@ -18,6 +18,9 @@ class User extends Authenticatable
     use HasApiTokens;
     use SoftDeletes;
 
+    public const PATH_AVATAR = 'images/avatars';
+    public const PATH_AVATAR_THUMBS = 'images/avatars/thumbs';
+
     /**
      * The attributes that are mass assignable.
      *
@@ -67,21 +70,22 @@ class User extends Authenticatable
         return $this->belongsToMany(Role::class);
     }
 
-    public function getAvatarAttribute(): string
+    public function getAvatarAttribute(): string | null
     {
-        if (! empty($this->attributes['avatar'])) {
-            return route('images.show', ['path' => $this->attributes['avatar']]);
+        if ($this->attributes['avatar']) {
+            return asset("storage/{$this->attributes['avatar']}");
         }
 
-        return asset('images/default-avatar.png');
+        return null;
     }
 
-    public function getAvatarThumbAttribute(): string
+    public function getAvatarThumbAttribute(): string | null
     {
-        if (! empty($this->attributes['avatar_thumb'])) {
-            return route('images.show', ['path' => $this->attributes['avatar_thumb']]);
+
+        if ($this->attributes['avatar_thumb']) {
+            return asset("storage/{$this->attributes['avatar_thumb']}");
         }
 
-        return asset('images/default-avatar.png');
+        return null;
     }
 }

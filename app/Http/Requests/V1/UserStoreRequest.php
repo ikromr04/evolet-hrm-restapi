@@ -27,7 +27,7 @@ class UserStoreRequest extends FormRequest
             'data.attributes.name' => ['required', 'string', 'max:50'],
             'data.attributes.surname' => ['required', 'string', 'max:50'],
             'data.attributes.email' => ['required', 'string', 'email', 'max:150', 'unique:users,email'],
-            'data.attributes.password' => ['nullable', 'string', 'min:6', 'max:50', 'confirmed'],
+            'data.attributes.password' => ['nullable', 'string', 'min:6', 'confirmed'],
         ];
     }
 
@@ -68,7 +68,6 @@ class UserStoreRequest extends FormRequest
             'data.attributes.password.string' => 'Пароль должен быть строкой.',
             'data.attributes.password.min' => 'Пароль должен быть не менее 6 символов.',
             'data.attributes.password.confirmed' => 'Пароль и подтверждение пароля не совпадают.',
-            'data.attributes.password.max' => 'Пароль не должно превышать 50 символов.',
         ];
     }
 }
