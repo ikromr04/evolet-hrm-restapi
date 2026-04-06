@@ -13,6 +13,7 @@
         "php": "^8.5",
         "cviebrock/eloquent-sluggable": "^12.0",
         "intervention/image-laravel": "^4.0",
+        "kalnoy/nestedset": "^6.0",
         "laravel/framework": "^12.0",
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.10.1"

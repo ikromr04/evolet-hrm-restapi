@@ -80,6 +80,18 @@ class User extends Authenticatable
         return $this->belongsToMany(Position::class);
     }
 
+    /**
+     * The departments that belong to the user.
+     *
+     * @return BelongsToMany<Department>
+     */
+    public function departments(): BelongsToMany
+    {
+        return $this
+            ->belongsToMany(Department::class)
+            ->withPivot('leader');
+    }
+
     public function getAvatarAttribute(): string | null
     {
         if ($this->attributes['avatar']) {
