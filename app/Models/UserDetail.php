@@ -33,11 +33,6 @@ class UserDetail extends Model
      */
     protected $casts = ['children' => 'array'];
 
-    /**
-     * The user that belong to the user_detail.
-     *
-     * @return BelongsTo<UserDetail>
-     */
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
