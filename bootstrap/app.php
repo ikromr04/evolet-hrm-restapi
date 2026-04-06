@@ -1,15 +1,13 @@
 <?php
 
+use App\Exceptions\Handler;
 use App\Http\Middleware\ValidateJsonApiAccept;
 use App\Http\Middleware\ValidateJsonApiMediaType;
-use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Validation\ValidationException;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -28,32 +26,8 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
-        $exceptions->render(function (ValidationException $exception, Request $request) {
-            foreach ($exception->errors() as $field => $messages) {
-                foreach ($messages as $message) {
-                    $errors[] = [
-                        'status' => 422,
-                        'title' => __('api.unprocessable_content.title'),
-                        'detail' => $message,
-                        'source' => ['pointer' => '/' . str_replace('.', '/', $field)]
-                    ];
-                }
-            }
-
-            return response()->json([
-                'jsonapi' => ['version' => config('jsonapi.version')],
-                'errors' => $errors
-            ], Response::HTTP_UNPROCESSABLE_ENTITY);
-        });
-
-        $exceptions->render(function (AuthenticationException $exception, Request $request) {
-            return response()->json([
-                'jsonapi' => ['version' => config('jsonapi.version')],
-                'errors' => [[
-                    'status' => Response::HTTP_UNAUTHORIZED,
-                    'title' => __('api.unauthenticated.title'),
-                    'detail' => __('api.unauthenticated.detail'),
-                ]]
-            ], Response::HTTP_UNAUTHORIZED);
+        $exceptions->render(function (\Throwable $exception, Request $request) {
+            $handler = new Handler(app());
+            return $handler->render($request, $exception);
         });
     })->create();
