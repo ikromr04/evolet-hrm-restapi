@@ -70,6 +70,16 @@ class User extends Authenticatable
         return $this->belongsToMany(Role::class);
     }
 
+    /**
+     * The positions that belong to the user.
+     *
+     * @return BelongsToMany<Position>
+     */
+    public function positions(): BelongsToMany
+    {
+        return $this->belongsToMany(Position::class);
+    }
+
     public function getAvatarAttribute(): string | null
     {
         if ($this->attributes['avatar']) {

@@ -648,6 +648,7 @@ class UserSeeder extends Seeder
 
         foreach ($users as $user) {
             User::create([
+                'id' => $user['id'],
                 'name' => $user['name'],
                 'surname' => $user['surname'],
                 'patronymic' => $user['patronymic'],
