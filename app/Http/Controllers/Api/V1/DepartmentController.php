@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\V1;
 
-use App\Models\UserDetail;
+use App\Models\Department;
 use Illuminate\Http\Request;
 
-class UserDetailController
+class DepartmentController
 {
     /**
      * Display a listing of the resource.
@@ -34,7 +34,7 @@ class UserDetailController
     /**
      * Display the specified resource.
      */
-    public function show(UserDetail $userDetail)
+    public function show(Department $department)
     {
         //
     }
@@ -42,7 +42,7 @@ class UserDetailController
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(UserDetail $userDetail)
+    public function edit(Department $department)
     {
         //
     }
@@ -50,7 +50,7 @@ class UserDetailController
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, UserDetail $userDetail)
+    public function update(Request $request, Department $department)
     {
         //
     }
@@ -58,7 +58,7 @@ class UserDetailController
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(UserDetail $userDetail)
+    public function destroy(Department $department)
     {
         //
     }

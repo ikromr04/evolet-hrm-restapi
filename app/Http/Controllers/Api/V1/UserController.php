@@ -10,7 +10,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\Encoders\WebpEncoder;
-use Intervention\Image\Format;
 use Intervention\Image\ImageManager;
 
 class UserController extends ApiController

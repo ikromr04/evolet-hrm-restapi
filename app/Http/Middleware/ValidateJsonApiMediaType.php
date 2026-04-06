@@ -2,14 +2,14 @@
 
 namespace App\Http\Middleware;
 
-use App\Traits\ApiResponse;
-use Closure;
+use App\Traits\ApiResponses;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Closure;
 
 class ValidateJsonApiMediaType
 {
-    use ApiResponse;
+    use ApiResponses;
 
     /**
      * Handle an incoming request.
@@ -18,7 +18,6 @@ class ValidateJsonApiMediaType
      */
     public function handle(Request $request, Closure $next): Response
     {
-
         $allowedMediaType = config('jsonapi.media_type');
         $allowedExtensions = config('jsonapi.extensions', []);
 
@@ -30,8 +29,8 @@ class ValidateJsonApiMediaType
                 if (! $contentType) {
                     return $this->error([[
                         'status' => Response::HTTP_UNSUPPORTED_MEDIA_TYPE,
-                        'title' => __('api.unsupported_media_type.title'),
-                        'detail' => __('api.unsupported_media_type.detail')
+                        'title' => __('api.415.title'),
+                        'detail' => __('api.415.detail')
                     ]]);
                 }
             }
@@ -40,8 +39,8 @@ class ValidateJsonApiMediaType
                 if (! str_starts_with($contentType, $allowedMediaType)) {
                     return $this->error([[
                         'status' => Response::HTTP_UNSUPPORTED_MEDIA_TYPE,
-                        'title' => __('api.unsupported_media_type.title'),
-                        'detail' => __('api.unsupported_media_type.detail')
+                        'title' => __('api.415.title'),
+                        'detail' => __('api.415.detail')
                     ]]);
                 }
 
@@ -56,8 +55,8 @@ class ValidateJsonApiMediaType
                     if (! in_array($key, ['ext', 'profile'])) {
                         return $this->error([[
                             'status' => Response::HTTP_UNSUPPORTED_MEDIA_TYPE,
-                            'title' => __('api.unsupported_media_type.title'),
-                            'detail' => __('api.unsupported_media_type.parameter_not_supported', ['parameter' => $key])
+                            'title' => __('api.415.title'),
+                            'detail' => __('api.415.parameter_not_supported', ['parameter' => $key])
                         ]]);
                     }
 
@@ -68,8 +67,8 @@ class ValidateJsonApiMediaType
                             if (! in_array($uri, $allowedExtensions)) {
                                 return $this->error([[
                                     'status' => Response::HTTP_UNSUPPORTED_MEDIA_TYPE,
-                                    'title' => __('api.unsupported_media_type.title'),
-                                    'detail' => __('api.unsupported_media_type.extension_not_supported', ['extension' => $uri])
+                                    'title' => __('api.415.title'),
+                                    'detail' => __('api.415.extension_not_supported', ['extension' => $uri])
                                 ]]);
                             }
                         }

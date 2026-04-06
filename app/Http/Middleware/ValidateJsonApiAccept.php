@@ -10,6 +10,7 @@ class ValidateJsonApiAccept
 {
     public function handle(Request $request, Closure $next): Response
     {
+        $allowedMediaType = config('jsonapi.media_type');
         $acceptHeader = $request->header('Accept');
         $allowedExtensions = config('jsonapi.extensions', []);
 
@@ -24,7 +25,7 @@ class ValidateJsonApiAccept
 
         foreach ($mediaTypes as $mediaType) {
 
-            if (!str_starts_with($mediaType, 'application/vnd.api+json')) {
+            if (!str_starts_with($mediaType, $allowedMediaType)) {
                 continue;
             }
 
@@ -54,11 +55,11 @@ class ValidateJsonApiAccept
             return response()->json([
                 'errors' => [[
                     'status' => Response::HTTP_NOT_ACCEPTABLE,
-                    'title' => __('api.not_acceptable.title'),
-                    'detail' => __('api.not_acceptable.detail')
+                    'title' => __('api.406.title'),
+                    'detail' => __('api.406.detail')
                 ]]
             ], Response::HTTP_NOT_ACCEPTABLE, [
-                'Content-Type' => 'application/vnd.api+json',
+                'Content-Type' => $allowedMediaType,
                 'Vary' => 'Accept',
             ]);
         }

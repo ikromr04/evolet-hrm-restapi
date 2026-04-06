@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\V1;
 
-use App\Models\Department;
+use App\Models\Language;
 use Illuminate\Http\Request;
 
-class DepartmentController
+class LanguageController
 {
     /**
      * Display a listing of the resource.
@@ -34,7 +34,7 @@ class DepartmentController
     /**
      * Display the specified resource.
      */
-    public function show(Department $department)
+    public function show(Language $language)
     {
         //
     }
@@ -42,7 +42,7 @@ class DepartmentController
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Department $department)
+    public function edit(Language $language)
     {
         //
     }
@@ -50,7 +50,7 @@ class DepartmentController
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Department $department)
+    public function update(Request $request, Language $language)
     {
         //
     }
@@ -58,7 +58,7 @@ class DepartmentController
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Department $department)
+    public function destroy(Language $language)
     {
         //
     }

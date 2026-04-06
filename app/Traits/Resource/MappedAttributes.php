@@ -1,14 +1,20 @@
 <?php
 
-namespace App\Http\Resources\V1;
+namespace App\Traits\Resource;
 
-use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Str;
 
-class BaseJsonResource extends JsonResource
+/**
+ * Trait MappedAttributes
+ *
+ * Provides a method to map model attributes to camelCase for API resources.
+ * Intended for use in Eloquent models that are serialized via resources.
+ */
+trait MappedAttributes
 {
     /**
-     * Get model existing attributes as an object with camelCase keys.
+     * Get model's attributes as an object with camelCase keys,
+     * excluding 'id' by default.
      */
     public function mappedAttributes(): object
     {

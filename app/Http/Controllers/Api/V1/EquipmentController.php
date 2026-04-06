@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\V1;
 
-use App\Models\UserExperience;
+use App\Models\Equipment;
 use Illuminate\Http\Request;
 
-class UserExperienceController
+class EquipmentController
 {
     /**
      * Display a listing of the resource.
@@ -34,7 +34,7 @@ class UserExperienceController
     /**
      * Display the specified resource.
      */
-    public function show(UserExperience $userExperience)
+    public function show(Equipment $equipment)
     {
         //
     }
@@ -42,7 +42,7 @@ class UserExperienceController
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(UserExperience $userExperience)
+    public function edit(Equipment $equipment)
     {
         //
     }
@@ -50,7 +50,7 @@ class UserExperienceController
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, UserExperience $userExperience)
+    public function update(Request $request, Equipment $equipment)
     {
         //
     }
@@ -58,7 +58,7 @@ class UserExperienceController
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(UserExperience $userExperience)
+    public function destroy(Equipment $equipment)
     {
         //
     }

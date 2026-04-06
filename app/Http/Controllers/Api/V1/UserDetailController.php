@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\V1;
 
-use App\Models\Language;
+use App\Models\UserDetail;
 use Illuminate\Http\Request;
 
-class LanguageController
+class UserDetailController
 {
     /**
      * Display a listing of the resource.
@@ -34,7 +34,7 @@ class LanguageController
     /**
      * Display the specified resource.
      */
-    public function show(Language $language)
+    public function show(UserDetail $userDetail)
     {
         //
     }
@@ -42,7 +42,7 @@ class LanguageController
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Language $language)
+    public function edit(UserDetail $userDetail)
     {
         //
     }
@@ -50,7 +50,7 @@ class LanguageController
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Language $language)
+    public function update(Request $request, UserDetail $userDetail)
     {
         //
     }
@@ -58,7 +58,7 @@ class LanguageController
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Language $language)
+    public function destroy(UserDetail $userDetail)
     {
         //
     }

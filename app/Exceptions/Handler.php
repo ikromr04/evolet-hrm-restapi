@@ -79,7 +79,7 @@ class Handler extends ExceptionHandler
         return $this->error([[
             'status' => Response::HTTP_UNAUTHORIZED,
             'title' => __('api.401.title'),
-            'detail' => __('api.401.message'),
+            'detail' => __('api.401.detail'),
         ]]);
     }
 }

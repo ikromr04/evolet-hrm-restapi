@@ -22,7 +22,7 @@ trait ApiResponses
         return $this->error([[
             'status' => Response::HTTP_UNAUTHORIZED,
             'title' => __('api.401.title'),
-            'detail' => $message ?: __('api.401.message'),
+            'detail' => $message ?: __('api.401.detail'),
         ]]);
     }
 

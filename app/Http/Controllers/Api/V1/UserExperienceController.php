@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\V1;
 
-use App\Models\Position;
+use App\Models\UserExperience;
 use Illuminate\Http\Request;
 
-class PositionController
+class UserExperienceController
 {
     /**
      * Display a listing of the resource.
@@ -34,7 +34,7 @@ class PositionController
     /**
      * Display the specified resource.
      */
-    public function show(Position $position)
+    public function show(UserExperience $userExperience)
     {
         //
     }
@@ -42,7 +42,7 @@ class PositionController
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Position $position)
+    public function edit(UserExperience $userExperience)
     {
         //
     }
@@ -50,7 +50,7 @@ class PositionController
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Position $position)
+    public function update(Request $request, UserExperience $userExperience)
     {
         //
     }
@@ -58,7 +58,7 @@ class PositionController
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Position $position)
+    public function destroy(UserExperience $userExperience)
     {
         //
     }
