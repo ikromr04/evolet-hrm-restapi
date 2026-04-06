@@ -2,10 +2,10 @@
 
 namespace App\Http\Resources\V1;
 
-use App\Http\Resources\V1\JsonApiCollection;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\ResourceCollection;
 
-class UserCollection extends JsonApiCollection
+class UserCollection extends ResourceCollection
 {
     /**
      * Transform the resource collection into an array.

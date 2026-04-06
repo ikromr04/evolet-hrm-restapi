@@ -15,12 +15,24 @@ use Symfony\Component\HttpFoundation\Response;
 trait ApiResponse
 {
     /**
+     * Return an unauthorized JSON:API response.
+     */
+    protected function unauthorized(?string $message = null): JsonResponse
+    {
+        return $this->error([[
+            'status' => Response::HTTP_UNAUTHORIZED,
+            'title' => __('api.401.title'),
+            'detail' => $message ?: __('api.401.message'),
+        ]]);
+    }
+
+    /**
      * Return a successful JSON:API response.
      */
     protected function success(
         mixed $data,
         int $status = Response::HTTP_OK,
-        ?array $links = null
+        ?array $links = null,
     ): JsonResponse {
         $response = [
             'data' => $data

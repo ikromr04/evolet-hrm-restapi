@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Requests\V1\LoginRequest;
+use App\Http\Resources\V1\TokenResource;
 use App\Http\Resources\V1\UserResource;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -12,7 +13,7 @@ use Illuminate\Support\Facades\Auth;
 class AuthController extends ApiController
 {
     /**
-     * Check if the user is authenticated
+     * Get the currently authenticated user.
      */
     public function me(Request $request): UserResource
     {
@@ -22,30 +23,15 @@ class AuthController extends ApiController
     /**
      * Authenticate a user and issue a personal access token.
      */
-    public function login(LoginRequest $request): JsonResponse
+    public function login(LoginRequest $request): JsonResponse|TokenResource
     {
         if (! Auth::attempt($request->credentials())) {
-            return $this->error([[
-                'status' => Response::HTTP_UNAUTHORIZED,
-                'title' => __('api.unauthorized.title'),
-                'detail' => __('api.unauthorized.detail')
-            ]]);
+            return $this->unauthorized(__('api.401.invalid_credentials'));
         }
 
         $token = $request->user()->createToken('api');
 
-        return $this->success(
-            data: [
-                'type' => 'tokens',
-                'id' => (string) $token->accessToken->id,
-                'attributes' => [
-                    'token' => $token->plainTextToken,
-                ]
-            ],
-            links: [
-                'self' => $request->url()
-            ]
-        );
+        return new TokenResource($token);
     }
 
     /**

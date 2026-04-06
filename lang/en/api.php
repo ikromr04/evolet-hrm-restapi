@@ -2,9 +2,10 @@
 
 return [
 
-    'unauthorized' => [
+    '401' => [
         'title' => 'Unauthorized',
-        'detail' => 'The provided credentials are incorrect.'
+        'message' => 'You are not authorized to perform this action.',
+        'invalid_credentials' => 'Invalid credentials. Please check your email and password.',
     ],
 
     'unauthenticated' => [
