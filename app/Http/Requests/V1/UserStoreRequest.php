@@ -2,11 +2,14 @@
 
 namespace App\Http\Requests\V1;
 
+use App\Enums\LangLevel;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Str;
 
 class UserStoreRequest extends FormRequest
 {
+    protected array $addedAttributes = [];
+
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -23,11 +26,56 @@ class UserStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'data.type' => ['required', 'in:users'],
-            'data.attributes.name' => ['required', 'string', 'max:50'],
-            'data.attributes.surname' => ['required', 'string', 'max:50'],
-            'data.attributes.email' => ['required', 'string', 'email', 'max:150', 'unique:users,email'],
-            'data.attributes.password' => ['nullable', 'string', 'min:6', 'confirmed'],
+            'data.type' => 'required|in:users',
+            'data.attributes.name' => 'required|string|max:255',
+            'data.attributes.surname' => 'required|string|max:255',
+            'data.attributes.patronymic' => 'nullable|string|max:255',
+            'data.attributes.email' => 'required|string|email|max:255|unique:users,email',
+            'data.attributes.password' => 'nullable|string|min:6|confirmed',
+            'data.attributes.avatar' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+
+            'data.relationships' => 'nullable|array',
+
+            'data.relationships.details' => 'nullable|array',
+            'data.relationships.details.data' => 'required_with:data.relationships.details|array',
+            'data.relationships.details.data.type' => 'required_with:data.relationships.details.data|in:user_details',
+            'data.relationships.details.data.id' => 'required_with:data.relationships.details.data|exists:user_details,id',
+
+            'data.relationships.roles' => 'nullable|array',
+            'data.relationships.roles.data' => 'required_with:data.relationships.roles|array',
+            'data.relationships.roles.data.*.type' => 'required_with:data.relationships.roles.data|in:roles',
+            'data.relationships.roles.data.*.id' => 'required_with:data.relationships.roles.data|exists:roles,id',
+
+            'data.relationships.positions' => 'nullable|array',
+            'data.relationships.positions.data' => 'required_with:data.relationships.positions|array',
+            'data.relationships.positions.data.*.type' => 'required_with:data.relationships.positions.data|in:positions',
+            'data.relationships.positions.data.*.id' => 'required_with:data.relationships.positions.data|exists:positions,id',
+
+            'data.relationships.departments' => 'nullable|array',
+            'data.relationships.departments.data' => 'required_with:data.relationships.departments|array',
+            'data.relationships.departments.data.*.type' => 'required_with:data.relationships.departments.data|in:departments',
+            'data.relationships.departments.data.*.id' => 'required_with:data.relationships.departments.data|exists:departments,id',
+
+            'data.relationships.experiences' => 'nullable|array',
+            'data.relationships.experiences.data' => 'required_with:data.relationships.experiences|array',
+            'data.relationships.experiences.data.*.type' => 'required_with:data.relationships.experiences.data|in:experiences',
+            'data.relationships.experiences.data.*.id' => 'required_with:data.relationships.experiences.data|exists:experiences,id',
+
+            'data.relationships.educations' => 'nullable|array',
+            'data.relationships.educations.data' => 'required_with:data.relationships.educations|array',
+            'data.relationships.educations.data.*.type' => 'required_with:data.relationships.educations.data|in:educations',
+            'data.relationships.educations.data.*.id' => 'required_with:data.relationships.educations.data|exists:educations,id',
+
+            'data.relationships.equipments' => 'nullable|array',
+            'data.relationships.equipments.data' => 'required_with:data.relationships.equipments|array',
+            'data.relationships.equipments.data.*.type' => 'required_with:data.relationships.equipments.data|in:equipments',
+            'data.relationships.equipments.data.*.id' => 'required_with:data.relationships.equipments.data|exists:equipments,id',
+
+            'data.relationships.languages' => 'nullable|array',
+            'data.relationships.languages.data' => 'required_with:data.relationships.languages|array',
+            'data.relationships.languages.data.*.type' => 'required_with:data.relationships.languages.data|in:languages',
+            'data.relationships.languages.data.*.id' => 'required_with:data.relationships.languages.data|exists:languages,id',
+            'data.relationships.languages.data.*.meta.level' => 'required_with:data.relationships.languages.data|in:' . implode(',', LangLevel::values()),
         ];
     }
 
@@ -39,35 +87,15 @@ class UserStoreRequest extends FormRequest
             'patronymic' => $this->input('data.attributes.patronymic'),
             'email' => $this->input('data.attributes.email'),
             'password' => $this->input('data.attributes.password') ?: Str::random(12),
+            ...$this->addedAttributes
         ];
     }
 
-    public function messages(): array
+    public function addAttributes(array $attributes): void
     {
-        return [
-            'data.type.required' => 'Тип ресурса обязателен.',
-            'data.type.in' => 'Неверный тип ресурса.',
-
-            'data.attributes.name.required' => 'Имя обязательно.',
-            'data.attributes.name.string' => 'Имя должно быть строкой.',
-            'data.attributes.name.max' => 'Имя не должно превышать 50 символов.',
-
-            'data.attributes.surname.required' => 'Фамилия обязательна.',
-            'data.attributes.surname.string' => 'Фамилия должна быть строкой.',
-            'data.attributes.surname.max' => 'Фамилия не должна превышать 50 символов.',
-
-            'data.attributes.patronymic.string' => 'Отчество должно быть строкой.',
-            'data.attributes.patronymic.max' => 'Отчество не должно превышать 50 символов.',
-
-            'data.attributes.email.required' => 'Email обязателен.',
-            'data.attributes.email.string' => 'Email должен быть строкой.',
-            'data.attributes.email.email' => 'Некорректный формат email.',
-            'data.attributes.email.max' => 'Email не должен превышать 150 символов.',
-            'data.attributes.email.unique' => 'Такой email уже используется.',
-
-            'data.attributes.password.string' => 'Пароль должен быть строкой.',
-            'data.attributes.password.min' => 'Пароль должен быть не менее 6 символов.',
-            'data.attributes.password.confirmed' => 'Пароль и подтверждение пароля не совпадают.',
+        $this->addedAttributes = [
+            ...$this->addedAttributes,
+            ...$attributes,
         ];
     }
 }
