@@ -23,6 +23,49 @@ class UserResource extends JsonResource
 
             'attributes' => $this->mappedAttributes(),
 
+            'relationships' => (object)[
+                'roles' => (object)[
+                    'links' => (object)[
+                        'related' => 'not implemented',
+                    ],
+                ],
+                'details' => (object)[
+                    'links' => (object)[
+                        'related' => 'not implemented',
+                    ],
+                ],
+                'positions' => (object)[
+                    'links' => (object)[
+                        'related' => 'not implemented',
+                    ],
+                ],
+                'departments' => (object)[
+                    'links' => (object)[
+                        'related' => 'not implemented',
+                    ],
+                ],
+                'experiences' => (object)[
+                    'links' => (object)[
+                        'related' => 'not implemented',
+                    ],
+                ],
+                'educations' => (object)[
+                    'links' => (object)[
+                        'related' => 'not implemented',
+                    ],
+                ],
+                'equipments' => (object)[
+                    'links' => (object)[
+                        'related' => 'not implemented',
+                    ],
+                ],
+                'languages' => (object)[
+                    'links' => (object)[
+                        'related' => 'not implemented',
+                    ],
+                ],
+            ],
+
             'links' => [
                 'self' => route('users.show', $this->id),
             ],
