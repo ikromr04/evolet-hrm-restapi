@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use App\Http\Resources\Api\V1\LanguageCollection;
 use App\Models\Language;
 use Illuminate\Http\Request;
 
@@ -10,9 +11,9 @@ class LanguageController
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): LanguageCollection
     {
-        //
+        return new LanguageCollection(Language::all());
     }
 
     /**
