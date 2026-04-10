@@ -21,13 +21,14 @@ class UserController extends ApiController
     /**
      * Store a newly created resource in storage.
      */
-    public function store(UserStoreRequest $request): UserResource
+    public function store(UserStoreRequest $request)
     {
         $user = User::create($request->mappedAttributes())
             ->syncRelationships($request->mappedRelationships());
 
-        if ($request->hasFile('avatar')) {
-            $user->storeAvatar($request->file('avatar'));
+
+        if ($request->hasFile('data.attributes.avatar')) {
+            $user->storeAvatar($request->file('data.attributes.avatar'));
         }
 
         return new UserResource($user->refresh());
@@ -38,7 +39,7 @@ class UserController extends ApiController
      */
     public function show(User $user): UserResource
     {
-        return new UserResource($user->load(['roles', 'positions']));
+        return new UserResource($user);
     }
 
     /**
@@ -49,10 +50,10 @@ class UserController extends ApiController
         $user->update($request->mappedAttributes());
         $user->syncRelationships($request->mappedRelationships());
 
-        if ($request->exists('avatar')) {
-            if ($request->hasFile('avatar')) {
-                $user->storeAvatar($request->file($request->file('avatar')));
-            } elseif ($request->input('avatar') === null) {
+        if ($request->exists('data.attributes.avatar')) {
+            if ($request->hasFile('data.attributes.avatar')) {
+                $user->storeAvatar($request->file($request->file('data.attributes.avatar')));
+            } elseif ($request->input('data.attributes.avatar') === null) {
                 $user->deleteAvatar();
             }
         }

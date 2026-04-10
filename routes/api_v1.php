@@ -1,14 +1,16 @@
 <?php
 
-use App\Http\Controllers\Api\V1\AuthController;
-use App\Http\Controllers\Api\V1\DepartmentController;
-use App\Http\Controllers\Api\V1\EquipmentController;
-use App\Http\Controllers\Api\V1\LanguageController;
-use App\Http\Controllers\Api\V1\PositionController;
-use App\Http\Controllers\Api\V1\RoleController;
-use App\Http\Controllers\Api\V1\UserController;
-use App\Http\Controllers\Api\V1\UserDetailController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\V1\{
+    AuthController,
+    DepartmentController,
+    EquipmentController,
+    LanguageController,
+    PositionController,
+    RoleController,
+    UserController,
+    ProfileController,
+};
 
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 
@@ -21,7 +23,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::apiResource('users', UserController::class);
 
-    Route::apiResource('user-details', UserDetailController::class);
+    Route::apiResource('profiles', ProfileController::class);
 
     Route::apiResource('roles', RoleController::class);
 

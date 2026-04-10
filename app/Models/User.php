@@ -33,7 +33,7 @@ class User extends Authenticatable
     public const PATH_AVATAR_THUMBS = 'images/avatars/thumbs';
 
     public const RELATIONSHIPS = [
-        'details',
+        'profiles',
         'roles',
         'positions',
         'departments',
@@ -85,11 +85,11 @@ class User extends Authenticatable
     /**
      * The detail that belong to the user.
      *
-     * @return HasOne<UserDetail>
+     * @return HasOne<Profile>
      */
-    public function details(): HasOne
+    public function profiles(): HasOne
     {
-        return $this->hasOne(UserDetail::class);
+        return $this->hasOne(Profile::class);
     }
 
     /**

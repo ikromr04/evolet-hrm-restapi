@@ -7,7 +7,7 @@ use App\Enums\Sex;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UserDetailStoreRequest extends FormRequest
+class ProfileStoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,7 +25,7 @@ class UserDetailStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'data.type' => 'required|in:user-details',
+            'data.type' => 'required|in:profiles',
             'data.attributes.birthDate' => 'nullable|date|before:today',
             'data.attributes.sex' => 'nullable|in:' . implode(',', Sex::values()),
             'data.attributes.nationality' => 'nullable|string|max:255',
@@ -39,7 +39,7 @@ class UserDetailStoreRequest extends FormRequest
             'data.attributes.startedWorkAt' => 'nullable|date|before_or_equal:today',
 
             'data.relationships.user.data.type' => 'required|in:users',
-            'data.relationships.user.data.id' => 'required|exists:users,id|unique:user_details,user_id',
+            'data.relationships.user.data.id' => 'required|exists:users,id|unique:profiles,user_id',
         ];
     }
 

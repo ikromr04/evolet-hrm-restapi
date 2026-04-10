@@ -29,17 +29,10 @@ class EquipmentResource extends JsonResource
                 'user' => [
                     'data' =>  [
                         'type' => 'users',
-                        'id' => $this->user_id,
-                    ],
-                    'links' => [
-                        'related' => route('users.show', $this->user_id),
+                        'id' => (string) $this->user_id,
                     ],
                 ],
             ],
-
-            'links' => [
-                'self' => route('equipments.show', $this->id),
-            ]
         ];
     }
 }

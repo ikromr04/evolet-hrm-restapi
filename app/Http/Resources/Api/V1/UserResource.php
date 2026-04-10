@@ -30,10 +30,6 @@ class UserResource extends JsonResource
                 'updatedAt' => $this->updated_at,
                 'deletedAt' => $this->deleted_at,
             ],
-
-            'links' => [
-                'self' => route('users.show', $this->id),
-            ],
         ];
     }
 }

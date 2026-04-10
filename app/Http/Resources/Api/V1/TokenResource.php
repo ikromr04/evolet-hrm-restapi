@@ -19,10 +19,6 @@ class TokenResource extends JsonResource
             'attributes' => [
                 'token' => $this->plainTextToken,
             ],
-
-            'links' => [
-                'self' => route('login'),
-            ],
         ];
     }
 }

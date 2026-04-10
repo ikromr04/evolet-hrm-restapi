@@ -20,16 +20,12 @@ class DepartmentResource extends JsonResource
 
             'attributes' => [
                 'name' => $this->name,
-                'left' => $this->_lft,
-                'right' => $this->_rgt,
-                'parent' => $this->parent_id,
+                'left' => (string) $this->_lft,
+                'right' => (string) $this->_rgt,
+                'parent' => (string) $this->parent_id,
                 'createdAt' => $this->created_at,
                 'updatedAt' => $this->updated_at,
             ],
-
-            'links' => [
-                'self' => route('departments.show', $this->id),
-            ]
         ];
     }
 }

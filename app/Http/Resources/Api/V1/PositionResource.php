@@ -23,10 +23,6 @@ class PositionResource extends JsonResource
                 'createdAt' => $this->created_at,
                 'updatedAt' => $this->updated_at,
             ],
-
-            'links' => [
-                'self' => route('positions.show', $this->id),
-            ]
         ];
     }
 }

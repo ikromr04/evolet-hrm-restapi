@@ -2,13 +2,13 @@
 
 namespace App\Models;
 
-use App\Http\Resources\Api\V1\UserDetailResource;
+use App\Http\Resources\Api\V1\ProfileResource;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Attributes\UseResource;
 
-#[UseResource(UserDetailResource::class)]
-class UserDetail extends Model
+#[UseResource(ProfileResource::class)]
+class Profile extends Model
 {
     /**
      * The attributes that are mass assignable.

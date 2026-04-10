@@ -56,7 +56,6 @@ class UserBaseRequest extends FormRequest
             'name' => $this->input('data.attributes.name'),
             'surname' => $this->input('data.attributes.surname'),
             'patronymic' => $this->input('data.attributes.patronymic'),
-            'avatar' => $this->file('data.attributes.avatar'),
             'email' => $this->input('data.attributes.email'),
             'password' => $this->input('data.attributes.password'),
         ], fn($value) => !is_null($value));
