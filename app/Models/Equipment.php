@@ -9,7 +9,11 @@ class Equipment extends Model
 {
     protected $table = 'equipments';
 
-    protected $fillable = ['name'];
+    protected $fillable = [
+        'name',
+        'description',
+        'user_id',
+    ];
 
     public function users(): BelongsToMany
     {

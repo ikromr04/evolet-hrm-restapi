@@ -28,8 +28,9 @@ class EquipmentController
     /**
      * Store a newly created resource in storage.
      */
-    public function store(EquipmentStoreRequest $request): EquipmentResource
+    public function store(EquipmentStoreRequest $request)
     {
+        // return $request->mappedAttributes();
         $equipment = Equipment::create($request->mappedAttributes());
 
         return new EquipmentResource($equipment);

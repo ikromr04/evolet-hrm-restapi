@@ -34,10 +34,10 @@ class EquipmentStoreRequest extends FormRequest
 
     public function mappedAttributes(): array
     {
-        return [
+        return array_filter([
             'user_id' => $this->input('data.relationships.user.data.id'),
             'name' => $this->input('data.attributes.name'),
             'description' => $this->input('data.attributes.description'),
-        ];
+        ], fn($value) => !blank($value));
     }
 }
