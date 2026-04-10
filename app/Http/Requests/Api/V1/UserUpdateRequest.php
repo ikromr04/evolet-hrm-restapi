@@ -23,7 +23,7 @@ class UserUpdateRequest extends UserBaseRequest
     {
         return [
             'data.type' => 'required|in:users',
-            'data.id' => "required|exists:users,id|in:$this->route('user')",
+            'data.id' => "required|exists:users,id",
             'data.attributes.name' => 'nullable|string|max:255',
             'data.attributes.surname' => 'nullable|string|max:255',
             'data.attributes.patronymic' => 'nullable|string|max:255',

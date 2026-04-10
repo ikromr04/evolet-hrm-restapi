@@ -37,10 +37,10 @@ class User extends Authenticatable
         'roles',
         'positions',
         'departments',
+        'languages',
+        'equipments',
         'experiences',
         'educations',
-        'equipments',
-        'languages',
     ];
 
     /**

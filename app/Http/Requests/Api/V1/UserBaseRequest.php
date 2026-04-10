@@ -3,7 +3,6 @@
 namespace App\Http\Requests\Api\V1;
 
 use App\Models\User;
-use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Str;
 
@@ -33,27 +32,6 @@ class UserBaseRequest extends FormRequest
         'data.relationships.languages.data.*.id' => 'required_with:data.relationships.languages.data|exists:languages,id',
     ];
 
-    /**
-     * Determine if the user is authorized to make this request.
-     */
-    public function authorize(): bool
-    {
-        return false;
-    }
-
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, ValidationRule|array<mixed>|string>
-     */
-    public function rules(): array
-    {
-        return [
-            //
-        ];
-    }
-
-
     public function mappedRelationships(): array
     {
         $relationships = [];
@@ -74,13 +52,14 @@ class UserBaseRequest extends FormRequest
 
     public function mappedAttributes(): array
     {
-        $attributes = [
+        $attributes = array_filter([
             'name' => $this->input('data.attributes.name'),
             'surname' => $this->input('data.attributes.surname'),
             'patronymic' => $this->input('data.attributes.patronymic'),
+            'avatar' => $this->file('data.attributes.avatar'),
             'email' => $this->input('data.attributes.email'),
             'password' => $this->input('data.attributes.password'),
-        ];
+        ], fn($value) => !is_null($value));
 
         if ($this->routeIs('users.store')) {
             $attributes['password'] = $this->input('data.attributes.password') ?: Str::random(12);

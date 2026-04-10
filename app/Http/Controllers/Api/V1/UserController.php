@@ -26,8 +26,8 @@ class UserController extends ApiController
         $user = User::create($request->mappedAttributes())
             ->syncRelationships($request->mappedRelationships());
 
-        if ($request->hasFile('data.attributes.avatar')) {
-            $user->storeAvatar($request->file('data.attributes.avatar'));
+        if ($request->hasFile('avatar')) {
+            $user->storeAvatar($request->file('avatar'));
         }
 
         return new UserResource($user->refresh());
@@ -38,26 +38,26 @@ class UserController extends ApiController
      */
     public function show(User $user): UserResource
     {
-        return new UserResource($user);
+        return new UserResource($user->load(['roles', 'positions']));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UserUpdateRequest $request, User $user)
+    public function update(UserUpdateRequest $request, User $user): UserResource
     {
         $user->update($request->mappedAttributes());
         $user->syncRelationships($request->mappedRelationships());
 
-        if ($request->exists('data.attributes.avatar')) {
-            if ($request->hasFile('data.attributes.avatar')) {
-                $user->storeAvatar($request->file($request->file('data.attributes.avatar')));
-            } elseif ($request->input('data.attributes.avatar') === null) {
+        if ($request->exists('avatar')) {
+            if ($request->hasFile('avatar')) {
+                $user->storeAvatar($request->file($request->file('avatar')));
+            } elseif ($request->input('avatar') === null) {
                 $user->deleteAvatar();
             }
         }
 
-        return new UserResource($user);
+        return new UserResource($user->refresh());
     }
 
     /**
