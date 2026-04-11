@@ -2,9 +2,6 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
-
-use App\Http\Resources\Api\V1\UserResource;
 use Intervention\Image\Encoders\WebpEncoder;
 use Intervention\Image\ImageManager;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -15,12 +12,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
-use Illuminate\Database\Eloquent\Attributes\UseResource;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Drivers\Gd\Driver;
 
-#[UseResource(UserResource::class)]
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
@@ -124,12 +119,12 @@ class User extends Authenticatable
 
     public function experiences(): HasMany
     {
-        return $this->hasMany(UserExperience::class);
+        return $this->hasMany(Experience::class);
     }
 
     public function educations(): HasMany
     {
-        return $this->hasMany(UserEducation::class);
+        return $this->hasMany(Education::class);
     }
 
     public function equipments(): HasMany

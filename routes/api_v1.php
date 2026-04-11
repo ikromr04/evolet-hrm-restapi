@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\V1\{
     AuthController,
     DepartmentController,
+    EducationController,
     EquipmentController,
     ExperienceController,
     LanguageController,
@@ -37,4 +38,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('equipments', EquipmentController::class);
 
     Route::apiResource('experiences', ExperienceController::class);
+
+    Route::apiResource('educations', EducationController::class);
 });
