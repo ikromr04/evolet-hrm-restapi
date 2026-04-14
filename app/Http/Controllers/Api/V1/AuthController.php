@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\V1;
 use App\Http\Requests\Api\V1\LoginRequest;
 use App\Http\Resources\Api\V1\TokenResource;
 use App\Http\Resources\Api\V1\UserResource;
+use App\Queries\Api\V1\UserQuery;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -15,9 +16,11 @@ class AuthController extends ApiController
     /**
      * Get the currently authenticated user.
      */
-    public function me(Request $request): UserResource
+    public function me(UserQuery $query, Request $request): UserResource
     {
-        return new UserResource($request->user());
+        $user = $query->query()->findOrFail($request->user()->id);
+
+        return $user->toResource();
     }
 
     /**

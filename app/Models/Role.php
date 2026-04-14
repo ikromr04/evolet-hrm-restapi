@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
+use App\Http\Resources\Api\V1\RoleResource;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Cviebrock\EloquentSluggable\Sluggable;
+use Illuminate\Database\Eloquent\Attributes\UseResource;
 
+#[UseResource(RoleResource::class)]
 class Role extends Model
 {
     use Sluggable;

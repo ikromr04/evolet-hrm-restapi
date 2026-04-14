@@ -2,18 +2,19 @@
 
 namespace App\Http\Controllers\Api\V1;
 
-use App\Http\Resources\Api\V1\RoleCollection;
 use App\Models\Role;
+use App\Queries\Api\V1\RoleQuery;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class RoleController
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(): RoleCollection
+    public function index(RoleQuery $query): AnonymousResourceCollection
     {
-        return new RoleCollection(Role::all());
+        return $query->get()->toResourceCollection();
     }
 
     /**

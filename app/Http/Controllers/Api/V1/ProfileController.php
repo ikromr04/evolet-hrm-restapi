@@ -6,16 +6,18 @@ use App\Http\Requests\Api\V1\ProfileStoreRequest;
 use App\Http\Resources\Api\V1\ProfileCollection;
 use App\Http\Resources\Api\V1\ProfileResource;
 use App\Models\Profile;
+use App\Queries\Api\V1\ProfileQuery;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class ProfileController
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(): ProfileCollection
+    public function index(ProfileQuery $query): AnonymousResourceCollection
     {
-        return new ProfileCollection(Profile::all());
+        return $query->get()->toResourceCollection();
     }
 
     /**
@@ -25,15 +27,17 @@ class ProfileController
     {
         $profile = Profile::create($request->mappedAttributes());
 
-        return new ProfileResource($profile);
+        return $profile->refresh()->toResource();
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Profile $profile): ProfileResource
+    public function show(ProfileQuery $query, string $id): ProfileResource
     {
-        return new ProfileResource($profile);
+        $profile =$query->query()->findOrFail($id);
+
+        return $profile->toResource();
     }
 
     /**

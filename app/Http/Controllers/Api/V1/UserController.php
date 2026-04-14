@@ -4,24 +4,19 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Requests\Api\V1\UserStoreRequest;
 use App\Http\Requests\Api\V1\UserUpdateRequest;
-use App\Http\Resources\Api\v1\UserCollection;
 use App\Http\Resources\Api\V1\UserResource;
 use App\Models\User;
+use App\Queries\Api\V1\UserQuery;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class UserController extends ApiController
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index(): UserCollection
+    public function index(UserQuery $query): AnonymousResourceCollection
     {
-        return new UserCollection(User::all());
+        return $query->get()->toResourceCollection();
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(UserStoreRequest $request)
+    public function store(UserStoreRequest $request): UserResource
     {
         $user = User::create($request->mappedAttributes())
             ->syncRelationships($request->mappedRelationships());
@@ -31,20 +26,16 @@ class UserController extends ApiController
             $user->storeAvatar($request->file('data.attributes.avatar'));
         }
 
-        return new UserResource($user->refresh());
+        return $user->refresh()->toResource();
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(User $user): UserResource
+    public function show(UserQuery $query, string $id): UserResource
     {
-        return new UserResource($user);
+        $user = $query->query()->findOrFail($id);
+
+        return $user->toResource();
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(UserUpdateRequest $request, User $user): UserResource
     {
         $user->update($request->mappedAttributes());
@@ -52,7 +43,7 @@ class UserController extends ApiController
 
         if ($request->exists('data.attributes.avatar')) {
             if ($request->hasFile('data.attributes.avatar')) {
-                $user->storeAvatar($request->file($request->file('data.attributes.avatar')));
+                $user->storeAvatar($request->file('data.attributes.avatar'));
             } elseif ($request->input('data.attributes.avatar') === null) {
                 $user->deleteAvatar();
             }
@@ -61,10 +52,7 @@ class UserController extends ApiController
         return new UserResource($user->refresh());
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function destroy(User $user)
     {
         //
     }

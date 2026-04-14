@@ -3,26 +3,20 @@
 namespace App\Http\Resources\Api\V1;
 
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Http\Resources\JsonApi\JsonApiResource;
 
-class PositionResource extends JsonResource
+class PositionResource extends JsonApiResource
 {
-    /**
-     * Transform the resource into an array.
-     *
-     * @return array<string, mixed>
-     */
-    public function toArray(Request $request): array
+    public $relationships = [
+        'users' => UserResource::class,
+    ];
+
+    public function toAttributes(Request $request): array
     {
         return [
-            'type' => 'positions',
-            'id' => (string) $this->id,
-
-            'attributes' => [
-                'name' => $this->name,
-                'createdAt' => $this->created_at,
-                'updatedAt' => $this->updated_at,
-            ],
+            'name' => $this->name,
+            'createdAt' => $this->created_at,
+            'updatedAt' => $this->updated_at,
         ];
     }
 }

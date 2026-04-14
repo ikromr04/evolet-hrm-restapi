@@ -2,18 +2,19 @@
 
 namespace App\Http\Controllers\Api\V1;
 
-use App\Http\Resources\Api\V1\PositionCollection;
 use App\Models\Position;
+use App\Queries\Api\V1\PositionQuery;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class PositionController
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(): PositionCollection
+    public function index(PositionQuery $query): AnonymousResourceCollection
     {
-        return new PositionCollection(Position::all());
+        return $query->get()->toResourceCollection();
     }
 
     /**

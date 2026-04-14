@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Http\Resources\Api\V1\UserResource;
+use Illuminate\Database\Eloquent\Attributes\UseResource;
 use Intervention\Image\Encoders\WebpEncoder;
 use Intervention\Image\ImageManager;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -16,6 +18,7 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Drivers\Gd\Driver;
 
+#[UseResource(UserResource::class)]
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
@@ -28,7 +31,7 @@ class User extends Authenticatable
     public const PATH_AVATAR_THUMBS = 'images/avatars/thumbs';
 
     public const RELATIONSHIPS = [
-        'profiles',
+        'profile',
         'roles',
         'positions',
         'departments',
@@ -38,11 +41,6 @@ class User extends Authenticatable
         'educations',
     ];
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var list<string>
-     */
     protected $fillable = [
         'name',
         'surname',
@@ -54,67 +52,44 @@ class User extends Authenticatable
         'password',
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var list<string>
-     */
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
-    protected function casts(): array
+    public function scopeWithRelationships($builder)
     {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-        ];
+        return $builder->with(self::RELATIONSHIPS);
     }
 
-    /**
-     * The detail that belong to the user.
-     *
-     * @return HasOne<Profile>
-     */
-    public function profiles(): HasOne
+    public function profile(): HasOne
     {
         return $this->hasOne(Profile::class);
     }
 
-    /**
-     * The roles that belong to the user.
-     *
-     * @return BelongsToMany<Role>
-     */
     public function roles(): BelongsToMany
     {
         return $this->belongsToMany(Role::class);
     }
 
-    /**
-     * The positions that belong to the user.
-     *
-     * @return BelongsToMany<Position>
-     */
     public function positions(): BelongsToMany
     {
         return $this->belongsToMany(Position::class);
     }
 
-    /**
-     * The departments that belong to the user.
-     *
-     * @return BelongsToMany<Department>
-     */
     public function departments(): BelongsToMany
     {
         return $this->belongsToMany(Department::class);
+    }
+
+    public function languages(): BelongsToMany
+    {
+        return $this->belongsToMany(Language::class);
+    }
+
+    public function equipments(): HasMany
+    {
+        return $this->hasMany(Equipment::class);
     }
 
     public function experiences(): HasMany
@@ -127,16 +102,6 @@ class User extends Authenticatable
         return $this->hasMany(Education::class);
     }
 
-    public function equipments(): HasMany
-    {
-        return $this->hasMany(Equipment::class);
-    }
-
-    public function languages(): BelongsToMany
-    {
-        return $this->belongsToMany(Language::class);
-    }
-
     public function syncRelationships(array $relationships): static
     {
         foreach ($relationships as $name => $value) {
@@ -144,24 +109,6 @@ class User extends Authenticatable
         }
 
         return $this;
-    }
-
-    public function getAvatarAttribute(): string | null
-    {
-        if ($this->attributes['avatar']) {
-            return asset("storage/{$this->attributes['avatar']}");
-        }
-
-        return null;
-    }
-
-    public function getAvatarThumbAttribute(): string | null
-    {
-        if ($this->attributes['avatar_thumb']) {
-            return asset("storage/{$this->attributes['avatar_thumb']}");
-        }
-
-        return null;
     }
 
     public function storeAvatar(UploadedFile $avatar): void
@@ -185,7 +132,6 @@ class User extends Authenticatable
         ]);
     }
 
-
     public function updateAvatar(UploadedFile $avatar): void
     {
         $this->deleteAvatarFiles();
@@ -203,12 +149,23 @@ class User extends Authenticatable
 
     public function deleteAvatarFiles(): void
     {
-        if ($this->avatar && Storage::disk('public')->exists($this->avatar)) {
-            Storage::disk('public')->delete($this->avatar);
+        $avatar = $this->attributes['avatar'] ?? null;
+        $thumb = $this->attributes['avatar_thumb'] ?? null;
+
+        if ($avatar && Storage::disk('public')->exists($avatar)) {
+            Storage::disk('public')->delete($avatar);
         }
 
-        if ($this->avatar_thumb && Storage::disk('public')->exists($this->avatar_thumb)) {
-            Storage::disk('public')->delete($this->avatar_thumb);
+        if ($thumb && Storage::disk('public')->exists($thumb)) {
+            Storage::disk('public')->delete($thumb);
         }
+    }
+
+    protected function casts(): array
+    {
+        return [
+            'email_verified_at' => 'datetime',
+            'password' => 'hashed',
+        ];
     }
 }
