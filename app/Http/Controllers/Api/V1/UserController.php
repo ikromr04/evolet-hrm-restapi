@@ -36,20 +36,22 @@ class UserController extends ApiController
         return $user->toResource();
     }
 
-    public function update(UserUpdateRequest $request, User $user): UserResource
+    public function update(UserUpdateRequest $request, UserQuery $query, string $id): UserResource
     {
+        $user = $query->query()->findOrFail($id);
         $user->update($request->mappedAttributes());
         $user->syncRelationships($request->mappedRelationships());
 
         if ($request->exists('data.attributes.avatar')) {
             if ($request->hasFile('data.attributes.avatar')) {
+                $user->deleteAvatar();
                 $user->storeAvatar($request->file('data.attributes.avatar'));
             } elseif ($request->input('data.attributes.avatar') === null) {
                 $user->deleteAvatar();
             }
         }
 
-        return new UserResource($user->refresh());
+        return $user->toResource();
     }
 
     public function destroy(User $user)
