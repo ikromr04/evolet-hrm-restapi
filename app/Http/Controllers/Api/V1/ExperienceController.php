@@ -9,7 +9,7 @@ use App\Queries\Api\V1\ExperienceQuery;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
-class ExperienceController
+class ExperienceController extends ApiController
 {
     /**
      * Display a listing of the resource.

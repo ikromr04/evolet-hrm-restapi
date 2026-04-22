@@ -7,10 +7,9 @@ use App\Http\Requests\Api\V1\ProfileUpdateRequest;
 use App\Http\Resources\Api\V1\ProfileResource;
 use App\Models\Profile;
 use App\Queries\Api\V1\ProfileQuery;
-use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
-class ProfileController
+class ProfileController extends ApiController
 {
     /**
      * Display a listing of the resource.

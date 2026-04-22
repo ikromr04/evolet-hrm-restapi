@@ -9,7 +9,7 @@ use App\Queries\Api\V1\EquipmentQuery;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
-class EquipmentController
+class EquipmentController extends ApiController
 {
     /**
      * Display a listing of the resource.

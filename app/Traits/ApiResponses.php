@@ -44,4 +44,9 @@ trait ApiResponses
             }, $errors),
         ], $status);
     }
+
+    public function noContent(): Response
+    {
+        return response()->noContent();
+    }
 }

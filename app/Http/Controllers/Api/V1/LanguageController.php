@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers\Api\V1;
 
-use App\Http\Resources\Api\V1\LanguageCollection;
 use App\Models\Language;
 use App\Queries\Api\V1\LanguageQuery;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
-class LanguageController
+class LanguageController extends ApiController
 {
     /**
      * Display a listing of the resource.

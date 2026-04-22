@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use App\Queries\Api\V1\DepartmentQuery;
 
-class DepartmentController
+class DepartmentController extends ApiController
 {
     /**
      * Display a listing of the resource.

@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers\Api\V1;
 
-use App\Models\Role;
 use App\Queries\Api\V1\RoleQuery;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
-class RoleController
+class RoleController extends ApiController
 {
     /**
      * Display a listing of the resource.
