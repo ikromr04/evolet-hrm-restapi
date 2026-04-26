@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Http\Resources\Api\V1\ProfileResource;
 use Illuminate\Database\Eloquent\Attributes\UseResource;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -39,5 +40,14 @@ class Profile extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    protected static function booted(): void
+    {
+        static::addGlobalScope('active_user', function (Builder $builder) {
+            $builder->whereHas('user', function (Builder $query) {
+                $query->whereNull('deleted_at');
+            });
+        });
     }
 }

@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -100,6 +101,11 @@ class User extends Authenticatable
     public function educations(): HasMany
     {
         return $this->hasMany(Education::class);
+    }
+
+    public function events(): MorphMany
+    {
+        return $this->morphMany(Event::class, 'eventable');
     }
 
     public function syncRelationships(array $relationships): static

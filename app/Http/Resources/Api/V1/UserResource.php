@@ -16,6 +16,7 @@ class UserResource extends JsonApiResource
         'equipments' => EquipmentResource::class,
         'experiences' => ExperienceResource::class,
         'educations' => EducationResource::class,
+        'events' => EventResource::class,
     ];
 
     public function toAttributes(Request $request): array

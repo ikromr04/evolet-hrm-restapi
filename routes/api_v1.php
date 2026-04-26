@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\V1\{
     DepartmentController,
     EducationController,
     EquipmentController,
+    EventController,
     ExperienceController,
     LanguageController,
     PositionController,
@@ -23,7 +24,11 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::delete('/tokens', 'logoutAll')->name('logoutAll');
     });
 
+    Route::get('users/fired', [UserController::class, 'fired'])->name('users.fired');
+    Route::get('users/transferred', [UserController::class, 'transferred'])->name('users.transferred');
     Route::apiResource('users', UserController::class);
+    Route::post('users/{user}/fire', [UserController::class, 'fire'])->name('users.fire');
+    Route::post('users/{user}/transfer', [UserController::class, 'transfer'])->name('users.transfer');
 
     Route::apiResource('profiles', ProfileController::class);
 

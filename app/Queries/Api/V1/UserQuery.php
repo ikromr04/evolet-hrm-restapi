@@ -39,6 +39,8 @@ class UserQuery extends QueryProfile
             'equipments',
             'experiences',
             'educations',
+            'events',
+            'events.performer',
         ];
     }
 

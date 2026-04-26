@@ -2,18 +2,44 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use App\Enums\EventType;
+use App\Http\Requests\Api\V1\UserFireRequest;
 use App\Http\Requests\Api\V1\UserStoreRequest;
+use App\Http\Requests\Api\V1\UserTransferRequest;
 use App\Http\Requests\Api\V1\UserUpdateRequest;
 use App\Http\Resources\Api\V1\UserResource;
 use App\Models\User;
 use App\Queries\Api\V1\UserQuery;
-use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Http\Resources\Json\ResourceCollection;
+use Illuminate\Http\Response;
 
 class UserController extends ApiController
 {
-    public function index(UserQuery $query): AnonymousResourceCollection
+    public function index(UserQuery $query): ResourceCollection
     {
         return $query->get()->toResourceCollection();
+    }
+
+    public function fired(UserQuery $query): ResourceCollection
+    {
+        return $query
+            ->query()
+            ->onlyTrashed()
+            ->whereHas('events', fn($q) => $q->where('type', EventType::FIRE))
+            ->get()
+            ->toResourceCollection();
+    }
+
+    public function tranfered(UserQuery $query): ResourceCollection
+    {
+        return $query
+            ->query()
+            ->onlyTrashed()
+            ->whereHas('events', function ($q) {
+                $q->where('type', EventType::TRANSFER);
+            })
+            ->get()
+            ->toResourceCollection();
     }
 
     public function store(UserStoreRequest $request): UserResource
@@ -51,6 +77,22 @@ class UserController extends ApiController
         }
 
         return $user->toResource();
+    }
+
+    public function fire(UserFireRequest $request, User $user): Response
+    {
+        $user->events()->create($request->mappedAttributes());
+        $user->delete();
+
+        return $this->noContent();
+    }
+
+    public function transfer(UserTransferRequest $request, User $user): Response
+    {
+        $user->events()->create($request->mappedAttributes());
+        $user->delete();
+
+        return $this->noContent();
     }
 
     public function destroy(User $user)
