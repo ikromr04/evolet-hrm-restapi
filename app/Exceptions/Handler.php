@@ -52,7 +52,7 @@ class Handler extends ExceptionHandler
         $index = strrpos($className, '\\');
 
         return $this->error([[
-            'status' => 200,
+            'status' => Response::HTTP_INTERNAL_SERVER_ERROR,
             'title' => $exception->getMessage(),
             'detail' => substr($className, $index + 1),
         ]]);

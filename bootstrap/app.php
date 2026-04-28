@@ -20,10 +20,7 @@ return Application::configure(basePath: dirname(__DIR__))
         }
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        $middleware->alias([
-            'media_type' => ValidateJsonApiMediaType::class,
-            'accept' => ValidateJsonApiAccept::class
-        ]);
+        //
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->render(function (\Throwable $exception, Request $request) {
