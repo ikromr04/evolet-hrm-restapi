@@ -95,8 +95,10 @@ class UserController extends ApiController
         return $this->noContent();
     }
 
-    public function destroy(User $user)
+    public function destroy(User $user): Response
     {
-        //
+        $user->delete();
+
+        return $this->noContent();
     }
 }
